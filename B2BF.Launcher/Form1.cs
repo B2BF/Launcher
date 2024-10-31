@@ -18,6 +18,12 @@ namespace B2BF.Launcher
 
 		public Form1()
 		{
+			if (!PlatformHelper.NeedAdmin() && PlatformHelper.IsRunningAsAdmin())
+			{
+				PlatformHelper.RestartWithoutAdmin();
+				Environment.Exit(0);
+			}
+
 			InitializeComponent();
 
 			_updater = new OldPhoenixUpdater();
@@ -205,6 +211,7 @@ namespace B2BF.Launcher
 		private void Form1_Shown(object sender, EventArgs e)
 		{
 			AutoUpdater.Mandatory = true;
+			AutoUpdater.RunUpdateAsAdmin = PlatformHelper.NeedAdmin();
 			AutoUpdater.LetUserSelectRemindLater = false;
 			AutoUpdater.TopMost = true;
 			//AutoUpdater.ReportErrors = true;
