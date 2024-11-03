@@ -83,12 +83,25 @@ namespace B2BF.Launcher
 				label3.Text = "Username: " + AccountInfo.Username;
 				button2.Visible = false;
 
-				var existingInstall = RegistryHelper.GetBattlefield2Installation();
-				if (!string.IsNullOrEmpty(existingInstall) && !File.Exists(Path.Combine(Settings.BF2GamePath, "version.txt")))
+				if (string.IsNullOrEmpty(Settings.GamePath))
 				{
-					if (MessageBox.Show("An existing Battlefield 2 installation was detected, do you want to use that one?\n" + existingInstall, "Existing install detected", MessageBoxButtons.YesNo) == DialogResult.Yes)
+					var existingInstall = RegistryHelper.GetBattlefield2Installation();
+					var prompt = string.Join("\n\n",
+						"Detected an existing Battlefield 2 installation at:",
+						existingInstall,
+						"Do you want to use that instead of downloading a fresh copy?"
+					);
+					if (!string.IsNullOrEmpty(existingInstall) &&
+					    MessageBox.Show(prompt,
+						    "Existing installation detected",
+						    MessageBoxButtons.YesNo) ==
+					    DialogResult.Yes)
 					{
 						Settings.GamePath = existingInstall;
+					}
+					else
+					{
+						Settings.GamePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Phoenix Games");
 					}
 				}
 
