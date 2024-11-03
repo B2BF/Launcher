@@ -89,12 +89,12 @@ namespace B2BF.Common.Data
         {
             get
             {
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Phoenix Games");
+                return ReadValue("GamePath");
                 //return Path.Combine((IntPtr.Size == 8) ? Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) : Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Phoenix Network");
             }
             set
             {
-                WriteValue("GamePath", value.ToString());
+                WriteValue("GamePath", value);
             }
         }
         public static string BF2GamePath
