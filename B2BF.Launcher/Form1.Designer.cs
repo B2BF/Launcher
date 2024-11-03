@@ -214,7 +214,7 @@
 			Margin = new Padding(3, 2, 3, 2);
 			MaximizeBox = false;
 			Name = "Form1";
-			Text = "Back 2 BattleField Launcher";
+			Text = "Back 2 Battlefield Launcher";
 			FormClosed += Form1_FormClosed;
 			Shown += Form1_Shown;
 			groupBox1.ResumeLayout(false);
