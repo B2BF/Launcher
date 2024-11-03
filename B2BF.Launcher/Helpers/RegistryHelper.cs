@@ -16,7 +16,7 @@ namespace B2BF.Launcher.Helpers
 				RegistryKey? reg;
 				if (!PlatformHelper.Is64Bit)
 				{
-					reg = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Electronic Arts\\EA Games\\Battlefield 2", true);
+					reg = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Electronic Arts\\EA Games\\Battlefield 2");
 					if (reg == null)
 					{
 						throw new Exception();
@@ -24,7 +24,7 @@ namespace B2BF.Launcher.Helpers
 				}
 				else
 				{
-					reg = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Electronic Arts\\EA Games\\Battlefield 2", true);
+					reg = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Electronic Arts\\EA Games\\Battlefield 2");
 					if (reg == null)
 					{
 						throw new Exception();
