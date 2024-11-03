@@ -66,7 +66,7 @@ namespace B2BF.Launcher.Helpers
 			var startInfo = new ProcessStartInfo
 			{
 				FileName = Application.ExecutablePath, // Path to the current executable
-				UseShellExecute = true,
+				UseShellExecute = false,
 				Verb = "runasuser" // "runasuser" is an unofficial workaround for restarting without elevation
 			};
 

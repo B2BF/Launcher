@@ -4,6 +4,7 @@ using B2BF.Common.Data;
 using B2BF.Common.Helpers;
 using B2BF.Common.Networking.GameSpy.CdKey;
 using B2BF.Common.Networking.GameSpy.Login;
+using B2BF.Common.Networking.GameSpy.Report;
 using B2BF.Common.Networking.GameSpy.Search;
 using B2BF.Common.Networking.Http;
 using B2BF.Common.Updater;
@@ -20,8 +21,7 @@ namespace B2BF.Launcher
 		{
 			if (!PlatformHelper.NeedAdmin() && PlatformHelper.IsRunningAsAdmin())
 			{
-				PlatformHelper.RestartWithoutAdmin();
-				Environment.Exit(0);
+				
 			}
 
 			InitializeComponent();
@@ -35,6 +35,7 @@ namespace B2BF.Launcher
 
 			LoginServer.Start();
 			SearchServer.Start();
+			ReportServer.Start();
 			HttpServer.Start();
 			CdKeyServer.Start();
 			ServerListHelper.Start();
