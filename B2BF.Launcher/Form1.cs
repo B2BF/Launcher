@@ -179,6 +179,26 @@ namespace B2BF.Launcher
 
 			RegistryHelper.DisableBF2HubAutoPatching();
 
+			OnNotify("Preflight check...");
+			if (!File.Exists(Path.Combine(Settings.BF2GamePath, "dinput8.dll")))
+			{
+				// download it, TODO
+			}
+			using (var fs = new FileStream(Path.Combine(Settings.BF2GamePath, "BF2.exe"), FileMode.Open))
+			{
+				fs.Position = 0x5627E0; // position of the bf2hub patch
+				fs.WriteByte(0x57); // W
+                fs.WriteByte(0x53); // S
+                fs.WriteByte(0x32); // 2
+                fs.WriteByte(0x5F); // _
+                fs.WriteByte(0x33); // 3
+                fs.WriteByte(0x32); // 2
+                fs.WriteByte(0x2E); // .
+                fs.WriteByte(0x64); // d
+                fs.WriteByte(0x6C); // l
+                fs.WriteByte(0x6C); // l
+            }
+
 			OnNotify("Fetching key...");
 			var cdkey = await AccountInfo.GetCdKeyAsync();
 			OnNotify("Launching Game!");
