@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using B2BF.Common.Data;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,5 +47,38 @@ namespace B2BF.Launcher.Helpers
 				return null;
 			}
 		}
+
+		public static void WriteBattlefield2Installation()
+		{
+            try
+            {
+                RegistryKey? reg;
+                if (!PlatformHelper.Is64Bit)
+                {
+                    reg = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Electronic Arts\\EA Games\\Battlefield 2", true);
+                    if (reg == null)
+                    {
+                        throw new Exception();
+                    }
+                }
+                else
+                {
+                    reg = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Electronic Arts\\EA Games\\Battlefield 2", true);
+                    if (reg == null)
+                    {
+                        throw new Exception();
+                    }
+                }
+				reg.SetValue("InstallDir", Settings.BF2GamePath);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
 	}
 }

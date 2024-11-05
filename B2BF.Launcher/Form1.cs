@@ -102,8 +102,10 @@ namespace B2BF.Launcher
 					}
 					else
 					{
-						Settings.GamePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Phoenix Games");
+						Settings.GamePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Phoenix Games");
 					}
+
+					RegistryHelper.WriteBattlefield2Installation();
 				}
 
 				Task.Factory.StartNew(() => _updater.Start());

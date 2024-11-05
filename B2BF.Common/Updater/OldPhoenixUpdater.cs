@@ -1,10 +1,7 @@
 ﻿using B2BF.Common.Data;
-using System;
-using System.Collections.Generic;
+using B2BF.Service.Updater;
 using System.Drawing;
-using System.Linq;
 using System.Net;
-using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -255,10 +252,12 @@ namespace B2BF.Common.Updater
 
             }
         }
+
         private void SetNotify(string text, Color color)
         {
             NotifyAction(text);
         }
+
         private static string ByteArrayToString(byte[] ba)
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);
@@ -266,6 +265,5 @@ namespace B2BF.Common.Updater
                 hex.AppendFormat("{0:x2}", b);
             return hex.ToString();
         }
-
     }
 }

@@ -1,33 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Security;
+﻿using System.Net.Security;
 using System.Net;
-using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using Newtonsoft.Json;
-using System.Collections;
 
-namespace B2BF.Common.Updater
+namespace B2BF.Service.Updater
 {
     public class PhoenixUpdateXml
     {
         public Version GameVersion { get; private set; }
-        public Boolean Hydra { get; private set; }
         public Dictionary<string, string> Files { get; private set; }
-        public PhoenixUpdateXml(Version gameversion, Boolean hydra, Dictionary<string, string> files)
+
+        public PhoenixUpdateXml(Version gameversion, Dictionary<string, string> files)
         {
             GameVersion = gameversion;
-            Hydra = hydra;
             Files = files;
         }
+
         public bool IsNewerThan(Version version)
         {
             return this.GameVersion > version;
         }
+
         public static PhoenixUpdateXml Parse(Uri location)
         {
             Dictionary<string, string> list = new Dictionary<string, string>();
@@ -46,7 +39,7 @@ namespace B2BF.Common.Updater
                     var updaterStruct = JsonConvert.DeserializeObject<UpdaterStruct>(updaterXmlData);
                     foreach (var file in updaterStruct.Files)
                         list.Add(file.Key, file.Value);//add to ignore case list
-                    result = new PhoenixUpdateXml(updaterStruct.GameVersion, false, list);
+                    result = new PhoenixUpdateXml(updaterStruct.GameVersion, list);
                 }
             }
             catch (Exception ex)
