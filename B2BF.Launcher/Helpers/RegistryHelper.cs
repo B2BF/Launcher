@@ -80,5 +80,28 @@ namespace B2BF.Launcher.Helpers
                 
             }
         }
+
+		public static void DisableBF2HubAutoPatching()
+		{
+            try
+            {
+                RegistryKey? reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\BF2Hub Systems\\BF2Hub Client", true);
+                if (reg == null)
+                {
+                    throw new Exception();
+                }
+
+                reg.SetValue("hrpApplyOnStartup", 0);
+                reg.SetValue("hrpInterval", 0);
+            }
+            catch (UnauthorizedAccessException)
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
 	}
 }

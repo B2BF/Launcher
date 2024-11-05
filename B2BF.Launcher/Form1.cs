@@ -177,6 +177,8 @@ namespace B2BF.Launcher
 				return;
 			}
 
+			RegistryHelper.DisableBF2HubAutoPatching();
+
 			OnNotify("Fetching key...");
 			var cdkey = await AccountInfo.GetCdKeyAsync();
 			OnNotify("Launching Game!");
