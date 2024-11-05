@@ -12,6 +12,7 @@ namespace B2BF.Common.Updater
         public Action<string> NotifyAction { get; set; }
         public Action<double, double> ProgressBarAction { get; set; }
         public Action<bool> StartButtonAction { get; set; }
+        public bool OverWriteExisting { get; set; }
         private PhoenixUpdateXml UpdateXML { get; set; }
         private WebClient _wClient { get; set; }
         private string GamePath { get; set; }
@@ -44,6 +45,12 @@ namespace B2BF.Common.Updater
                 StartButtonAction(true);
             }
         }
+
+        public void DownloadSpecificFile(string file)
+        {
+
+        }
+
         private void BeginUpdating(bool full = false)
         {
             SetNotify("Downloading update...", Color.Orange);
@@ -79,7 +86,7 @@ namespace B2BF.Common.Updater
 
                             }
                         }
-                        else
+                        else if (OverWriteExisting || file.Key == "dinput8.dll")
                         {
                             using (var sha = new HMACMD5(Encoding.UTF8.GetBytes(file.Key)))
                             using (var fs = new FileStream(Path.Combine(GamePath, file.Key), FileMode.Open))
@@ -140,7 +147,7 @@ namespace B2BF.Common.Updater
                     _wClient.DownloadProgressChanged += _wClient_DownloadProgressChanged;
                     foreach (var file in UpdateXML.Files)
                     {
-                        if (File.Exists(Path.Combine(GamePath, file.Key)))
+                        if (File.Exists(Path.Combine(GamePath, file.Key)) && (OverWriteExisting || file.Key == "dinput8.dll"))
                         {
                             using (var sha = new HMACMD5(Encoding.UTF8.GetBytes(file.Key)))
                             {
