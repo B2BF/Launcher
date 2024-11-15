@@ -177,6 +177,7 @@ namespace B2BF.Launcher
                 return;
             }
 
+            ServerListHelper.UpdateServerList();
             RegistryHelper.DisableBF2HubAutoPatching();
 
             OnNotify("Preflight check...");
