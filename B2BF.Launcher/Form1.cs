@@ -203,10 +203,32 @@ namespace B2BF.Launcher
             var cdkey = await AccountInfo.GetCdKeyAsync();
             OnNotify("Launching Game!");
 
+            // Default/vanilla arguments
+            var arguments = new List<string>
+            {
+                $"+modPath \"mods/{Settings.Mod}\"",
+                $"+playerName \"{AccountInfo.Username}\"",
+                "+playerPassword \"testingitnotimportant\""
+            };
+            if (!Settings.Fullscreen)
+            {
+                // Default is 1, only add set to 0
+                arguments.Add("+fullscreen 0");
+            }
+            if (Settings.Restart)
+            {
+                // This is really a boolean flag, so we cannot set it to 0 (game still would not show intro videos)
+                arguments.Add("+restart 1");
+            }
+            
+            // Custom arguments
+            arguments.Add($"/gscdk x9392{cdkey}");
+            arguments.Add($"/language {Settings.Language}");
+
             var psi = new ProcessStartInfo(Path.Combine(Settings.BF2GamePath, "BF2.exe"))
             {
                 WorkingDirectory = Settings.BF2GamePath,
-                Arguments = $" +modPath \"mods/{Settings.Mod}\" +fullscreen {(Settings.Fullscreen ? "1" : "0")} +restart {(Settings.Restart ? "1" : "0")} +playerName \"{AccountInfo.Username}\" +playerPassword \"testingitnotimportant\" /gscdk x9392{cdkey} /language {Settings.Language}",
+                Arguments = string.Join(" ", arguments),
             };
             Process.Start(psi);
         }
