@@ -14,7 +14,7 @@ namespace B2BF.Common.Networking.GameSpy.Login.Packets
             {
                 loginClient.clientChallengeKey = packet.GetParameterValue("challenge");
                 var clientResponse = packet.GetParameterValue("response");//this is to verify the client
-                if (username.ToLower() != AccountInfo.Username.ToLower())
+                if (username != AccountInfo.Username)
                 {
                     loginClient.Send("\\error\\\\err\\265\\fatal\\\\errmsg\\The uniquenick provided is incorrect!\\id\\1\\final\\");
                     return;
