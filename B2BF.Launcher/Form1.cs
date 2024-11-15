@@ -289,10 +289,17 @@ namespace B2BF.Launcher
 
             }
 
-            if (MessageBox.Show("Do you want to check ALL files? Checking all files will result in any modifications you made being overwritten permanently. Pressing 'No' will check only B2BF files", "Are you sure about that?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            var result = MessageBox.Show(
+                "Yes: Check all files, permanently overwrite any modifications.\nNo: Check only B2BF-specific files, leave all other files untouched.",
+                "Validate all game files?",
+                MessageBoxButtons.YesNoCancel
+            );
+            if (result == DialogResult.Cancel)
             {
-                _updater.OverWriteExisting = true;
+                return;
             }
+
+            _updater.OverWriteExisting = result == DialogResult.Yes;
 
             button1.Enabled = false;
             button3.Enabled = false;
