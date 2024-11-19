@@ -1,11 +1,6 @@
 ﻿using B2BF.Common.Account;
 using B2BF.Common.Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace B2BF.Common.Helpers
@@ -29,7 +24,7 @@ namespace B2BF.Common.Helpers
 
         }
 
-        private static async void _timer_Elapsed(object? sender, ElapsedEventArgs e)
+        public static async Task UpdateServerList()
         {
             try
             {
@@ -41,8 +36,12 @@ namespace B2BF.Common.Helpers
             }
             catch (Exception ex)
             {
-
             }
+        }
+
+        private static async void _timer_Elapsed(object? sender, ElapsedEventArgs e)
+        {
+            await UpdateServerList();
         }
     }
 }
