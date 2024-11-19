@@ -82,7 +82,7 @@ namespace B2BF.Common.Helpers
 
             return data.ToArray();
         }
-        private static string GetField(GameSpyServer server, string fieldName)
+        public static string GetField(GameSpyServer server, string fieldName)
         {
             string result = "";
             if (!server.ServerStats.TryGetValue(fieldName, out result))

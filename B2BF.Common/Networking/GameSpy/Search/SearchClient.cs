@@ -1,5 +1,6 @@
 ﻿using B2BF.Common.Helpers;
 using B2BF.Common.Models;
+using B2BF.Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,12 +72,8 @@ namespace B2BF.Common.Networking.GameSpy.Search
 
         private bool ParseRequest(string gamename, BinaryReader br)
         {
-            List<GameSpyServer> servers = ServerListHelper.Servers;
-            string validate = "";
-            byte p;
-            while ((p = br.ReadByte()) != 0x00)
-                validate += Convert.ToChar(p);
-            validate += "\x00";
+            IQueryable<GameSpyServer> servers = ServerListHelper.Servers.AsQueryable();
+            var validate = br.ReadBytes(8);
             string filter = "";
             byte b;
             while ((b = br.ReadByte()) != 0x00)
@@ -84,7 +81,7 @@ namespace B2BF.Common.Networking.GameSpy.Search
             string fieldList = "";
             while ((b = br.ReadByte()) != 0x00)
                 fieldList += Convert.ToChar(b);
-            var fields = filter.Split("\\");
+            var fields = fieldList.Split("\\");
             // http://aluigi.altervista.org/papers/gslist.cfg
             byte[] key;
             if (gamename == "battlefield2")
@@ -93,8 +90,15 @@ namespace B2BF.Common.Networking.GameSpy.Search
                 key = Encoding.GetEncoding("ISO-8859-1").GetBytes("Xn221z");
             if (servers == null)
                 return false;
+
+            var fixedFilter = GameSpyHelper.FixFilter(filter);
+            if (!string.IsNullOrEmpty(fixedFilter))
+            {
+                servers = servers.Where(fixedFilter);
+            }
+
             byte[] unencryptedServerList = GameSpyHelper.PackServerList((IPEndPoint)_clientSocket.RemoteEndPoint, servers, fields);
-            byte[] encryptedServerList = GameSpyHelper.GameSpyEncoding.Encode(key, Encoding.GetEncoding("ISO-8859-1").GetBytes(validate), unencryptedServerList, unencryptedServerList.LongLength);
+            byte[] encryptedServerList = GameSpyHelper.GameSpyEncoding.Encode(key, validate, unencryptedServerList, unencryptedServerList.LongLength);
             Send(encryptedServerList);
             return true;
         }
