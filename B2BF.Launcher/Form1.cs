@@ -67,6 +67,26 @@ namespace B2BF.Launcher
 
         private async Task AsyncInit()
         {
+            var processes = Process.GetProcessesByName("bf2.exe");
+            while (processes.Length > 0)
+            {
+                if (MessageBox.Show("Battlefield 2 is still running, please close it. Press 'Yes' if you want us to close it for you.", "Battlefield is running", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    foreach (var process in processes)
+                    {
+                        try
+                        {
+                            process.Kill();
+                        }
+                        catch { }
+                    }
+
+                    break;
+                }
+
+                processes = Process.GetProcessesByName("bf2.exe");
+            }
+
             if (!AccountInfo.HasLoggedInUser())
             {
                 button1.Enabled = false;
