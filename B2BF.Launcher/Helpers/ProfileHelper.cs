@@ -73,11 +73,11 @@ namespace B2BF.Launcher.Helpers
                 {
                     var defaultProfilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Battlefield 2", "Profiles", "Default");
 
-                    if (!File.Exists(Path.Combine(profilePath, "Audio.con")))
+                    if (File.Exists(Path.Combine(defaultProfilePath, "Audio.con")) && !File.Exists(Path.Combine(profilePath, "Audio.con")))
                         File.Copy(Path.Combine(defaultProfilePath, "Audio.con"), Path.Combine(profilePath, "Audio.con"));
-                    if (!File.Exists(Path.Combine(profilePath, "General.con")))
+                    if (File.Exists(Path.Combine(defaultProfilePath, "General.con")) && !File.Exists(Path.Combine(profilePath, "General.con")))
                         File.Copy(Path.Combine(defaultProfilePath, "General.con"), Path.Combine(profilePath, "General.con"));
-                    if (!File.Exists(Path.Combine(profilePath, "ServerSettings.con")))
+                    if (File.Exists(Path.Combine(defaultProfilePath, "ServerSettings.con")) && !File.Exists(Path.Combine(profilePath, "ServerSettings.con")))
                         File.Copy(Path.Combine(defaultProfilePath, "ServerSettings.con"), Path.Combine(profilePath, "ServerSettings.con"));
                 }
                 else
