@@ -59,6 +59,7 @@ namespace B2BF.Launcher.Helpers
             if (!profileNames.Contains(AccountInfo.Username, StringComparer.Ordinal))
             {
                 highestProfileId++;
+                profileNames.Add(AccountInfo.Username);
                 var profilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Battlefield 2", "Profiles", highestProfileId.ToString().PadLeft(4, '0'));
                 Directory.CreateDirectory(profilePath);
 
