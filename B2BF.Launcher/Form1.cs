@@ -201,6 +201,7 @@ namespace B2BF.Launcher
             RegistryHelper.DisableBF2HubAutoPatching();
 
             OnNotify("Preflight check...");
+            ProfileHelper.CreateProfileIfNotExists();
             if (!File.Exists(Path.Combine(Settings.BF2GamePath, "dinput8.dll")))
             {
                 // download it, TODO
