@@ -12,6 +12,7 @@ namespace B2BF.Launcher.Helpers
         private static int highestProfileId = 0;
         private static bool hasDefaultProfile = false;
         private static List<string> profileNames = new();
+        private static readonly string[] requiredFiles = new string[3] { "Audio.con", "General.con", "ServerSettings.con" };
 
         static ProfileHelper()
         {
@@ -73,29 +74,21 @@ namespace B2BF.Launcher.Helpers
                 {
                     var defaultProfilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Battlefield 2", "Profiles", "Default");
 
-                    if (File.Exists(Path.Combine(defaultProfilePath, "Audio.con")) && !File.Exists(Path.Combine(profilePath, "Audio.con")))
-                        File.Copy(Path.Combine(defaultProfilePath, "Audio.con"), Path.Combine(profilePath, "Audio.con"));
-                    else if (File.Exists(Path.Combine(defaultProfilePath, "Audio.con")) && !File.Exists(Path.Combine(profilePath, "Audio.con")))
-                        File.Create(Path.Combine(profilePath, "Audio.con"));
-
-                    if (File.Exists(Path.Combine(defaultProfilePath, "General.con")) && !File.Exists(Path.Combine(profilePath, "General.con")))
-                        File.Copy(Path.Combine(defaultProfilePath, "General.con"), Path.Combine(profilePath, "General.con"));
-                    else if (File.Exists(Path.Combine(defaultProfilePath, "General.con")) && !File.Exists(Path.Combine(profilePath, "General.con")))
-                        File.Create(Path.Combine(profilePath, "General.con"));
-
-                    if (File.Exists(Path.Combine(defaultProfilePath, "ServerSettings.con")) && !File.Exists(Path.Combine(profilePath, "ServerSettings.con")))
-                        File.Copy(Path.Combine(defaultProfilePath, "ServerSettings.con"), Path.Combine(profilePath, "ServerSettings.con"));
-                    else if (File.Exists(Path.Combine(defaultProfilePath, "ServerSettings.con")) && !File.Exists(Path.Combine(profilePath, "ServerSettings.con")))
-                        File.Create(Path.Combine(profilePath, "ServerSettings.con"));
+                    foreach (var requiredFile in requiredFiles)
+                    {
+                        if (File.Exists(Path.Combine(defaultProfilePath, requiredFile)) && !File.Exists(Path.Combine(profilePath, requiredFile)))
+                            File.Copy(Path.Combine(defaultProfilePath, requiredFile), Path.Combine(profilePath, requiredFile));
+                        else if (File.Exists(Path.Combine(defaultProfilePath, requiredFile)) && !File.Exists(Path.Combine(profilePath, requiredFile)))
+                            File.Create(Path.Combine(profilePath, requiredFile));
+                    }
                 }
                 else
                 {
-                    if (!File.Exists(Path.Combine(profilePath, "Audio.con")))
-                        File.Create(Path.Combine(profilePath, "Audio.con"));
-                    if (!File.Exists(Path.Combine(profilePath, "General.con")))
-                        File.Create(Path.Combine(profilePath, "General.con"));
-                    if (!File.Exists(Path.Combine(profilePath, "ServerSettings.con")))
-                        File.Create(Path.Combine(profilePath, "ServerSettings.con"));
+                    foreach (var requiredFile in requiredFiles)
+                    {
+                        if (!File.Exists(Path.Combine(profilePath, requiredFile)))
+                            File.Create(Path.Combine(profilePath, requiredFile));
+                    }
                 }
             }
         }
