@@ -70,25 +70,14 @@ namespace B2BF.Launcher.Helpers
 
                 File.WriteAllText(Path.Combine(profilePath, "Profile.con"), sb.ToString());
 
-                if (hasDefaultProfile)
-                {
-                    var defaultProfilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Battlefield 2", "Profiles", "Default");
+                var defaultProfilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Battlefield 2", "Profiles", "Default");
 
-                    foreach (var requiredFile in requiredFiles)
-                    {
-                        if (File.Exists(Path.Combine(defaultProfilePath, requiredFile)) && !File.Exists(Path.Combine(profilePath, requiredFile)))
-                            File.Copy(Path.Combine(defaultProfilePath, requiredFile), Path.Combine(profilePath, requiredFile));
-                        else if (File.Exists(Path.Combine(defaultProfilePath, requiredFile)) && !File.Exists(Path.Combine(profilePath, requiredFile)))
-                            File.Create(Path.Combine(profilePath, requiredFile));
-                    }
-                }
-                else
+                foreach (var requiredFile in requiredFiles)
                 {
-                    foreach (var requiredFile in requiredFiles)
-                    {
-                        if (!File.Exists(Path.Combine(profilePath, requiredFile)))
-                            File.Create(Path.Combine(profilePath, requiredFile));
-                    }
+                    if (File.Exists(Path.Combine(defaultProfilePath, requiredFile)) && !File.Exists(Path.Combine(profilePath, requiredFile)))
+                        File.Copy(Path.Combine(defaultProfilePath, requiredFile), Path.Combine(profilePath, requiredFile));
+                    else if ((!hasDefaultProfile || !File.Exists(Path.Combine(defaultProfilePath, requiredFile))) && !File.Exists(Path.Combine(profilePath, requiredFile)))
+                        File.Create(Path.Combine(profilePath, requiredFile));
                 }
             }
         }
