@@ -147,23 +147,7 @@ namespace B2BF.Common.Updater
                     _wClient.DownloadProgressChanged += _wClient_DownloadProgressChanged;
                     foreach (var file in UpdateXML.Files)
                     {
-                        if (File.Exists(Path.Combine(GamePath, file.Key)) && (OverWriteExisting || file.Key == "dinput8.dll"))
-                        {
-                            using (var sha = new HMACMD5(Encoding.UTF8.GetBytes(file.Key)))
-                            {
-                                if (!file.Value.Equals(ByteArrayToString(sha.ComputeHash(new FileStream(Path.Combine(GamePath, file.Key), FileMode.Open)))))
-                                    Redownload.Add(file.Key, file.Value);
-                            }
-                            try
-                            {
-                                File.Delete(Path.Combine(GamePath, file.Key));
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
-                        else
+                        if (!File.Exists(Path.Combine(GamePath, file.Key)))
                         {
                             var path = Path.Combine(GamePath, Path.GetDirectoryName(file.Key));
                             if (!Directory.Exists(path))
@@ -180,6 +164,22 @@ namespace B2BF.Common.Updater
                                 }
                             }
                             catch (Exception ex)
+                            {
+
+                            }
+                        }
+                        else if (OverWriteExisting || file.Key == "dinput8.dll")
+                        {
+                            using (var sha = new HMACMD5(Encoding.UTF8.GetBytes(file.Key)))
+                            {
+                                if (!file.Value.Equals(ByteArrayToString(sha.ComputeHash(new FileStream(Path.Combine(GamePath, file.Key), FileMode.Open)))))
+                                    Redownload.Add(file.Key, file.Value);
+                            }
+                            try
+                            {
+                                File.Delete(Path.Combine(GamePath, file.Key));
+                            }
+                            catch (Exception)
                             {
 
                             }
