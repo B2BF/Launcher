@@ -9,6 +9,15 @@
     <AssemblyVersion>1.0.0.9</AssemblyVersion>
     <FileVersion>1.0.0.9</FileVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+	<LangVersion>11.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
